@@ -1,0 +1,91 @@
+ public Rigidbody rb;
+    private int count;
+    float moveX = 0;
+    float moveY = 0;
+    float moveZ = 0;
+    float speed = 50;
+    public float jumpspeed = 10f;
+    public float distancetoground = 5f;
+    private Rigidbody selfRidgedbody;
+    public TextMeshProUGUI countText;
+    public GameObject winTextObject;
+
+    float x = 3;
+    // Start is called before the first frame update
+    void Start()
+    {
+       rb= GetComponent<Rigidbody>();
+        count = 0;
+
+        if (x < 3)
+        {
+            Debug.Log("itslessthat3");
+        }
+
+        for (int i = 10; i > -5; i--)
+        {
+
+        }
+
+    }
+    private void FixedUpdate()
+    {
+        
+    }
+
+
+    void SetCountText()
+    {
+        countText.text = "items " + count.ToString();
+
+        if (count >= 12)
+        {
+          
+            winTextObject.SetActive(true);
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        moveX = Input.GetAxis("Horizontal") * speed;
+        moveZ = Input.GetAxis("Vertical") * speed;
+        moveX = Input.GetAxis("vertical") * speed;
+        moveZ = Input.GetAxis("horizontal") * speed;
+        Rigidbody body = GetComponent<Rigidbody>();
+        body.velocity = new Vector3(moveX, 0, moveZ);
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Vector3 jumpVelocity = new Vector3(0f, jumpspeed, 0f);
+            rb.velocity = rb.velocity + jumpVelocity;
+            
+        }
+        bool isGrounded()
+        {
+            return Physics.Raycast(transform.position, Vector3.down, distancetoground);
+        }
+
+
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("pickup"))
+        {
+            other.gameObject.SetActive(false);
+            count = count + 1;
+        }
+        
+    }
+    
+
+   
+        
+
+
+
+
+
+    
+ 
+}
